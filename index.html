@@ -1608,6 +1608,7 @@ function addNote(n){S.notes.push(Object.assign({z:S.zone},n));updateHUD();}
 function markDone(id){S.done.add(key(id));const d=Z.spots[id];if(d.fx)d.fx(Z.R);refreshMarkers();updateHUD();}
 
 function tapSpot(id){
+  if(typeof TUT!=='undefined'&&TUT.on){if(!tapSpot.tw||Date.now()-tapSpot.tw>1500){tapSpot.tw=Date.now();toast('지금은 조작 익히기 중이에요. 다 익히면 살펴볼 수 있어요!');}return;}
   if(typeof id==='string'&&id.startsWith('npc:')){sfx.tap();npcChat(id.slice(4));return;}
   const d=Z.spots[id];if(!d)return;$('#tip').hidden=true;
   if(d.type==='hazard'){if(!isDone(id))foundHazard(id,d);else{const h=HS.find(x=>x.id===id);openSheet('hazard','다시 보기',hazardCard(d,Z.hunt.indexOf(id)+1,Z.hunt.length,h?snapshot(h.obj):null).replace(/위험 \d+ \/ \d+/,'찾은 위험'),[{label:'확인',primary:1}]);}return;}
